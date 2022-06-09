@@ -172,7 +172,8 @@ public class QqhxViewerExecutor extends AbstractViewerExecutor {
     private void loadFolderImpl(ViewerExecutorArgs args, File file) {
         IdGenerator idGenerator = args.getIdGenerator();
         
-        IPackage rootVfs = new FilePackage(file.getAbsolutePath(), new FileTreeBuilder(file.getAbsolutePath()).build());
+        ITree tree = new FileTreeBuilder(file.getAbsolutePath(), idGenerator).build();
+        IPackage rootVfs = new FilePackage(file.getAbsolutePath(), tree);
         rootVfs.getHandlerKvs().put(String.class, new StringFileHandler(Charset.forName("GB2312")));
         rootVfs.getHandlerKvs().put(FieldsFile.class, new FieldsFileHandler(Charset.forName("GB2312"), false, true, "\r\n", ","));
         rootVfs.getHandlerKvs().put(FspFile.class, new FspFileHandler());
