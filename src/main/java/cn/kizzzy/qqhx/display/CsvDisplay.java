@@ -7,7 +7,7 @@ import cn.kizzzy.javafx.display.DisplayAttribute;
 import cn.kizzzy.javafx.display.DisplayType;
 import cn.kizzzy.vfs.IPackage;
 import cn.kizzzy.vfs.converter.Converter;
-import cn.kizzzy.vfs.converter.FieldsFileConverter;
+import cn.kizzzy.vfs.converter.StringToFieldsFileConverter;
 
 @DisplayAttribute(suffix = {
     "csv",
@@ -23,7 +23,7 @@ public class CsvDisplay extends Display<IPackage> {
         String text = context.load(path, String.class);
         if (text != null) {
             FieldsFile fieldsFile = Converter.convert(text, String.class)
-                .load(FieldsFile.class, new FieldsFileConverter(false, true, "\n", ","))
+                .load(FieldsFile.class, new StringToFieldsFileConverter(false, true, "\n", ","))
                 .get();
             if (fieldsFile != null) {
                 return new DisplayAAA(DisplayType.SHOW_TABLE, fieldsFile);

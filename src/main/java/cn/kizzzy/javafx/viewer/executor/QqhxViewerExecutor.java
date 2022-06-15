@@ -53,7 +53,7 @@ public class QqhxViewerExecutor extends AbstractViewerExecutor {
     @Override
     public void initialize(ViewerExecutorArgs args) {
         IPackage userVfs = args.getUserVfs();
-        userVfs.getHandlerKvs().put(QqhxConfig.class, new JsonFileHandler<>(QqhxConfig.class));
+        userVfs.addHandler(QqhxConfig.class, new JsonFileHandler<>(QqhxConfig.class));
         
         config = userVfs.load(CONFIG_PATH, QqhxConfig.class);
         config = config != null ? config : new QqhxConfig();
@@ -124,17 +124,17 @@ public class QqhxViewerExecutor extends AbstractViewerExecutor {
         IdGenerator idGenerator = args.getIdGenerator();
         
         IPackage dataVfs = new FilePackage(file.getParent());
-        dataVfs.getHandlerKvs().put(String.class, new StringFileHandler(Charset.forName("GB2312")));
-        dataVfs.getHandlerKvs().put(FieldsFile.class, new FieldsFileHandler());
-        dataVfs.getHandlerKvs().put(FspFile.class, new FspFileHandler());
-        dataVfs.getHandlerKvs().put(FspItem.class, new FspItemHandler());
-        dataVfs.getHandlerKvs().put(CseFile.class, new CseFileHandler());
-        dataVfs.getHandlerKvs().put(ResFile.class, new ResFileHandler());
-        dataVfs.getHandlerKvs().put(SfpFile.class, new SfpFileHandler());
-        dataVfs.getHandlerKvs().put(MfpFile.class, new MfpFileHandler());
-        dataVfs.getHandlerKvs().put(MspFile.class, new MspFileHandler());
-        dataVfs.getHandlerKvs().put(MapFile.class, new MapFileHandler());
-        dataVfs.getHandlerKvs().put(MaiFile.class, new MaiFileHandler());
+        dataVfs.addHandler(String.class, new StringFileHandler(Charset.forName("GB2312")));
+        dataVfs.addHandler(FieldsFile.class, new FieldsFileHandler());
+        dataVfs.addHandler(FspFile.class, new FspFileHandler());
+        dataVfs.addHandler(FspItem.class, new FspItemHandler());
+        dataVfs.addHandler(CseFile.class, new CseFileHandler());
+        dataVfs.addHandler(ResFile.class, new ResFileHandler());
+        dataVfs.addHandler(SfpFile.class, new SfpFileHandler());
+        dataVfs.addHandler(MfpFile.class, new MfpFileHandler());
+        dataVfs.addHandler(MspFile.class, new MspFileHandler());
+        dataVfs.addHandler(MapFile.class, new MapFileHandler());
+        dataVfs.addHandler(MaiFile.class, new MaiFileHandler());
         
         String path = FileHelper.getName(file.getAbsolutePath());
         FspFile fspFile = dataVfs.load(path, FspFile.class);
@@ -144,7 +144,7 @@ public class QqhxViewerExecutor extends AbstractViewerExecutor {
         
         ITree tree = new FspTreeBuilder(fspFile, idGenerator).build();
         IPackage pkgVfs = new FspPackage(file.getParent(), tree);
-        pkgVfs.getHandlerKvs().put(String.class, new StringFileHandler(Charset.forName("GB2312")));
+        pkgVfs.addHandler(String.class, new StringFileHandler(Charset.forName("GB2312")));
         
         args.getObservable().setValue(new ViewerExecutorBinder(pkgVfs, this));
     }
@@ -174,17 +174,17 @@ public class QqhxViewerExecutor extends AbstractViewerExecutor {
         
         ITree tree = new FileTreeBuilder(file.getAbsolutePath(), idGenerator).build();
         IPackage rootVfs = new FilePackage(file.getAbsolutePath(), tree);
-        rootVfs.getHandlerKvs().put(String.class, new StringFileHandler(Charset.forName("GB2312")));
-        rootVfs.getHandlerKvs().put(FieldsFile.class, new FieldsFileHandler(Charset.forName("GB2312"), false, true, "\r\n", ","));
-        rootVfs.getHandlerKvs().put(FspFile.class, new FspFileHandler());
-        rootVfs.getHandlerKvs().put(FspItem.class, new FspItemHandler());
-        rootVfs.getHandlerKvs().put(CseFile.class, new CseFileHandler());
-        rootVfs.getHandlerKvs().put(ResFile.class, new ResFileHandler());
-        rootVfs.getHandlerKvs().put(SfpFile.class, new SfpFileHandler());
-        rootVfs.getHandlerKvs().put(MfpFile.class, new MfpFileHandler());
-        rootVfs.getHandlerKvs().put(MspFile.class, new MspFileHandler());
-        rootVfs.getHandlerKvs().put(MapFile.class, new MapFileHandler());
-        rootVfs.getHandlerKvs().put(MaiFile.class, new MaiFileHandler());
+        rootVfs.addHandler(String.class, new StringFileHandler(Charset.forName("GB2312")));
+        rootVfs.addHandler(FieldsFile.class, new FieldsFileHandler(Charset.forName("GB2312"), false, true, "\r\n", ","));
+        rootVfs.addHandler(FspFile.class, new FspFileHandler());
+        rootVfs.addHandler(FspItem.class, new FspItemHandler());
+        rootVfs.addHandler(CseFile.class, new CseFileHandler());
+        rootVfs.addHandler(ResFile.class, new ResFileHandler());
+        rootVfs.addHandler(SfpFile.class, new SfpFileHandler());
+        rootVfs.addHandler(MfpFile.class, new MfpFileHandler());
+        rootVfs.addHandler(MspFile.class, new MspFileHandler());
+        rootVfs.addHandler(MapFile.class, new MapFileHandler());
+        rootVfs.addHandler(MaiFile.class, new MaiFileHandler());
         
         args.getObservable().setValue(new ViewerExecutorBinder(rootVfs, this));
     }
@@ -265,7 +265,7 @@ public class QqhxViewerExecutor extends AbstractViewerExecutor {
                 if (target == null) {
                     String pkgName = leaf.pack.replace(".pkg", "");
                     target = new FilePackage(config.export_image_path + "/" + pkgName);
-                    target.getHandlerKvs().put(BufferedImage.class, new BufferedImageHandler());
+                    target.addHandler(BufferedImage.class, new BufferedImageHandler());
                 }
                 
                 if (leaf.path.contains(".gso")) {
